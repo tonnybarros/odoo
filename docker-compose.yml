@@ -2,8 +2,10 @@ version: "3.7"
 services:
 
   odoo18_app:
-    image: odoo:18.0
-    user: root
+  build:
+    context: .
+    dockerfile: Dockerfile
+  user: root
 
     volumes:
       - odoo_data:/var/lib/odoo
