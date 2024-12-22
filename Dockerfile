@@ -9,13 +9,16 @@ RUN apt-get update && apt-get install -y python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Configurar o PATH para incluir o ambiente virtual
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Copie o script de inicialização
+# Copiar o script de inicialização
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Voltar para o usuário padrão do Odoo
 USER odoo
 
+# Configurar o entrypoint e o comando padrão
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["odoo"]
