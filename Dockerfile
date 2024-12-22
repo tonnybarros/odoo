@@ -2,23 +2,18 @@ FROM odoo:18.0
 
 USER root
 
-# Instale e configure o ambiente virtual
-RUN apt-get update && apt-get install -y python3-venv \
+# Instale as dependências e configure o ambiente virtual
+RUN apt-get update && apt-get install -y python3-venv libxml2-dev libxslt1-dev zlib1g-dev \
     && python3 -m venv /opt/venv \
-    && /opt/venv/bin/pip install --no-cache-dir erpbrasil.base email-validator num2words phonenumbers brazilcep \
+    && /opt/venv/bin/pip install --no-cache-dir erpbrasil.base email-validator num2words phonenumbers brazilcep psycopg2-binary \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Configurar o PATH para incluir o ambiente virtual
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Copiar o script de inicialização
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 # Voltar para o usuário padrão do Odoo
 USER odoo
 
-# Configurar o entrypoint e o comando padrão
-ENTRYPOINT ["/entrypoint.sh"]
+# Configurar o comando padrão
 CMD ["odoo"]
