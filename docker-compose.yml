@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: odoo:custom
+    image: odoo:18.0
     user: root
 
     volumes:
